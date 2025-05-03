@@ -1,7 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多语言切换示例 | Multilingual Example</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    .lang-switcher { margin-bottom: 1rem; }
+    button { margin-right: 0.5rem; padding: 0.5rem 1rem; cursor: pointer; }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <div class="lang-switcher">
+    <button data-lang="zh-CN">简体中文</button>
+    <button data-lang="zh-TW">正體中文</button>
+    <button data-lang="en">English</button>
+  </div>
+
+  <h1 data-i18n="title"></h1>
+  <p data-i18n="welcome"></p>
+  <p data-i18n="description"></p>
+
+  <script>
+    const translations = {
+      'zh-CN': {
+        title: '欢迎来到我的网站',
+        welcome: '你好！这是一个多语言切换示例。',
+        description: '您现在可以在简体中文、正體中文和 English 之间切换。'
+      },
+      'zh-TW': {
+        title: '歡迎來到我的網站',
+        welcome: '你好！這是一個多語言切換示例。',
+        description: '您現在可以在簡體中文、正體中文 和 English 之間切換。'
+      },
+      'en': {
+        title: 'Welcome to My Website',
+        welcome: 'Hello! This is a multilingual switch example.',
+        description: 'You can now switch between 简体中文, 正體中文 and English.'
+      }
+    };
+
+    const elements = document.querySelectorAll('[data-i18n]');
+
+    function setLanguage(lang) {
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = translations[lang][key];
+      });
+      localStorage.setItem('lang', lang);
+    }
+
+    document.querySelectorAll('.lang-switcher button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setLanguage(btn.getAttribute('data-lang'));
+      });
+    });
+
+    // Initialize language on load
+    const savedLang = localStorage.getItem('lang') || 'en';
+    setLanguage(savedLang);
+  </script>
 </body>
 </html>
